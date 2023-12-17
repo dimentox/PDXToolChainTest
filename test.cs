@@ -25,8 +25,9 @@ namespace test
 
         public void OnCreateWorld(UpdateSystem updateSystem)
         {
-            
 
+            Settings.BoolSetting = true;
+            Options.StringSetting = "Test";
             UnityEngine.Debug.LogWarning("*****TESTMOD*****" + nameof(OnCreateWorld));
             updateSystem.UpdateAt<PrintPopulationSystem>(SystemUpdatePhase.GameSimulation);
             updateSystem.UpdateAt<DeltaTimePrintSystem>(SystemUpdatePhase.GameSimulation);
@@ -49,7 +50,8 @@ namespace test
             AssetDatabase.global.LoadSettings("Mod Settings Section", Settings, new MySettings());
 
             AssetDatabase.global.LoadSettings("Mod Options Section", Options, new MyOptions());
-            AssetDatabase.global.SaveSettings();
+        
+            
         }
     }
 
