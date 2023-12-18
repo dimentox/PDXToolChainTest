@@ -1,8 +1,8 @@
 #define BURST
-#define VERBOSE
-#define DEBUG
-#define DEBUG_VERBOSE
-#define UNITY_ASSERTIONS
+//#define VERBOSE
+//#define DEBUG
+//#define DEBUG_VERBOSE
+//#define UNITY_ASSERTIONS
 
 using Game;
 using Game.Citizens;
@@ -28,21 +28,21 @@ namespace test
 
             Settings.BoolSetting = true;
             Options.StringSetting = "Test";
-            UnityEngine.Debug.LogWarning("*****TESTMOD*****" + nameof(OnCreateWorld));
+            UnityEngine.Debug.LogWarning($"*****TESTMOD*****{nameof(OnCreateWorld)}");  
             updateSystem.UpdateAt<PrintPopulationSystem>(SystemUpdatePhase.GameSimulation);
-            updateSystem.UpdateAt<DeltaTimePrintSystem>(SystemUpdatePhase.GameSimulation);
+            // disabled cause its so spammy   updateSystem.UpdateAt<DeltaTimePrintSystem>(SystemUpdatePhase.GameSimulation);
             updateSystem.UpdateAt<TestModSystem>(SystemUpdatePhase.GameSimulation);
         }
 
         public void OnDispose()
         {
-            UnityEngine.Debug.Log("*****TESTMOD*****" + nameof(OnDispose));
+            UnityEngine.Debug.Log($"*****TESTMOD*****{nameof(OnDispose)}");
             log.Warn(nameof(OnDispose));
         }
 
         public void OnLoad()
         {
-            UnityEngine.Debug.Log("*****TESTMOD*****" + nameof(OnLoad));
+            UnityEngine.Debug.Log($"*****TESTMOD*****{nameof(OnLoad)}");
             log.Warn(nameof(OnLoad));
             Settings = new MySettings();
             Options = new MyOptions();
@@ -61,12 +61,12 @@ namespace test
         {
             base.OnCreate();
 
-            TestMod.log.Warn("*****TESTMOD*****" + $"[{nameof(DeltaTimePrintSystem)}] {nameof(OnCreate)}");
+            TestMod.log.Warn($"[{nameof(DeltaTimePrintSystem)}] {nameof(OnCreate)}");
         }
         protected override void OnUpdate()
         {
             var deltaTime = SystemAPI.Time.DeltaTime;
-            TestMod.log.Warn("*****TESTMOD*****" + $"[{nameof(DeltaTimePrintSystem)}] DeltaTime: {deltaTime}");
+            TestMod.log.Warn( $"[{nameof(DeltaTimePrintSystem)}] DeltaTime: {deltaTime}");
         }
     }
 
@@ -80,7 +80,7 @@ namespace test
         {
             base.OnCreate();
 
-            TestMod.log.Warn("*****TESTMOD*****" + $"[{nameof(PrintPopulationSystem)}] {nameof(OnCreate)}");
+            TestMod.log.Warn($"*****TESTMOD*****[{nameof(PrintPopulationSystem)}] {nameof(OnCreate)}");
 
             m_SimulationSystem = World.GetOrCreateSystemManaged<SimulationSystem>();
 
@@ -141,7 +141,7 @@ namespace test
             public void Execute()
             {
 #if VERBOSE
-                UnityEngine.Debug.LogWarning("*****TESTMOD*****" + $"Start executing {nameof(CountPopulationJob)}");
+                UnityEngine.Debug.LogWarning( $"Start executing CountPopulationJob");
 #endif
                 m_Result[0] = 0;
 
@@ -169,7 +169,7 @@ namespace test
                     }
                 }
 #if VERBOSE
-                UnityEngine.Debug.LogWarning("*****TESTMOD*****" + $"Finish executing {nameof(CountPopulationJob)}");
+                UnityEngine.Debug.LogWarning( $"Finish executing CountPopulationJob");
 #endif
             }
         }
@@ -213,14 +213,15 @@ namespace test
             public void Execute()
             {
 #if VERBOSE
-                UnityEngine.Debug.LogWarning($"Start executing {nameof(TestJob)}");
+                UnityEngine.Debug.LogWarning($"Start executing TestJob");
 #endif
                 for (int i = 0; i < m_Array.Length; i += 1)
                 {
                     m_Array[i] = m_Array[i] + i;
                 }
 #if VERBOSE
-                UnityEngine.Debug.LogWarning("*****TESTMOD*****" + $"Finish executing {nameof(TestJob)}");
+         
+                UnityEngine.Debug.LogWarning($"Finish executing TestJob");
 #endif
             }
 
